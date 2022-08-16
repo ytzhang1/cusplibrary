@@ -14,3 +14,13 @@ for ext in extensions:
 
   for source in sources:
     env.Program(source)
+    print(source)
+
+"""
+env.MSVSProject(target="blas" + env['MSVSPROJECTSUFFIX'],
+                srcs=['blas.cu'],
+                variant='Release')
+env.MSVSProject(target="multiply" + env['MSVSPROJECTSUFFIX'],
+                srcs=['multiply.cu'],
+                variant='Release')
+"""            

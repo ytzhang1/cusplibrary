@@ -225,7 +225,7 @@ def getLINKFLAGS(mode, backend, hostspblas, LINK):
     return result
 
 
-def environment(buildDir):
+def environment(buildDir, includeDir):
     # allow the user discretion to choose the MSVC version
     vars = Variables()
     if os.name == 'nt':
@@ -244,7 +244,7 @@ def environment(buildDir):
     vars.Add(backend_variable)
 
     # add a variable to handle RELEASE/DEBUG mode
-    vars.Add(EnumVariable('mode', 'Release versus debug mode', 'release',
+    vars.Add(EnumVariable('mode', 'Release versus debug mode', 'debug',
                           allowed_values=('release', 'debug', 'coverage')))
 
     # add a variable to handle compute capability
@@ -278,7 +278,7 @@ def environment(buildDir):
     vars.Add(hostblas_variable)
 
     # add a variable to handle the device BLAS backend
-    deviceblas_variable = EnumVariable('deviceblas', 'Device BLAS library', 'cusp',
+    deviceblas_variable = EnumVariable('deviceblas', 'Device BLAS library', 'cublas',
                                        allowed_values=('cusp', 'cblas', 'cublas'))
     vars.Add(deviceblas_variable)
 
@@ -396,7 +396,7 @@ def environment(buildDir):
     # set thrust include path
     # this needs to come before the CUDA include path appended above,
     # which may include a different version of thrust
-    env.Prepend(CPPPATH=os.path.dirname(buildDir))
+    env.Prepend(CPPPATH=os.path.dirname(includeDir))
 
     if 'THRUST_PATH' in os.environ:
         env.Prepend(CPPPATH=[os.path.abspath(os.environ['THRUST_PATH'])])
